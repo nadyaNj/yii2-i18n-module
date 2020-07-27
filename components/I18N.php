@@ -25,7 +25,10 @@ class I18N extends \yii\i18n\I18N
     public function init()
     {
         if (!$this->languages) {
-            throw new InvalidConfigException('You should configure i18n component [language]');
+            $this->languages = ArrayHelper::getColumn(Language::find()->all(), 'id');
+            if (!$this->languages) {
+                throw new InvalidConfigException('You should configure i18n component [language]');
+            }
         }
 
         if (!isset($this->translations['*'])) {
